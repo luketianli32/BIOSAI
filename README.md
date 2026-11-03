@@ -32,6 +32,22 @@ uv run python -m biosai serve                # app + AI tutor at http://127.0.0.
 
 For frontend development, run `pnpm dev` in `app/` (http://localhost:5173). It proxies `/api` to the server.
 
+## Docker deployment
+
+The Docker build expects the generated BIOS schema at
+`out/z890-eagle-f5/bios_schema.json`. Generate it with the `extract` command
+above before building. The image bundles the schema and board data, builds the
+web UI, and runs the API and UI together:
+
+```sh
+docker build -t biosai .
+docker run --rm -p 8765:8765 -e ANTHROPIC_API_KEY="$ANTHROPIC_API_KEY" biosai
+```
+
+The server listens on `0.0.0.0` and uses port `8765` by default; deployment
+platforms can override it with the `PORT` environment variable. Pass
+`ANTHROPIC_API_KEY` at runtime if you want to enable the hosted AI tutor.
+
 **AI tutor:** set `ANTHROPIC_API_KEY` before `biosai serve` to use Claude (`claude-opus-5-5`, with server-side refusal fallback enabled). Without a key, the tutor runs offline and answers from the BIOS's own help text and dependency rules. Answers are grounded in options retrieved from this board's firmware plus `kb/tuning_guide.md`.
 
 Deep links: `?tab=settings&page=tab:settings/p1`, `?tab=tweaker&page=form:4:10843`, `?mode=easy`, and `?set=<item id>=<value>,...` to preset options (e.g. `?tab=tweaker&page=form:4:10870&set=4:10870/1=1` sets Vcore Voltage Mode to Adaptive).
