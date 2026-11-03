@@ -1,0 +1,235 @@
+{
+ "_doc": "Gigabyte GUI layout for this board, rebuilt from the overview video. The GUI regroups IFR forms into its own tabs; 'form' renders an IFR form, 'pages' builds a synthetic page from IFR refs/items matched by prompt.",
+ "skin": "gigabyte-dark",
+ "modes": [
+  "easy",
+  "advanced"
+ ],
+ "tabs": [
+  {
+   "id": "favorites",
+   "title": "Favorites (F11)",
+   "icon": "star",
+   "form": "4:11093"
+  },
+  {
+   "id": "tweaker",
+   "title": "Tweaker",
+   "icon": "gauge",
+   "_doc": "Row order rebuilt from the video (frames at 287s, 355s, 376s). 'pick' takes rows by label in this order and brings their dependent sub-options automatically. 'Special Vcore Setting' (shown by the firmware only when Vcore Voltage Mode = Single Core Vcore) is a link in the M.I.T. root form, so that form is in the voltage pick pool.",
+   "entries": [
+    {
+     "pick": [
+      "4:10739",
+      "4:10752"
+     ],
+     "only": [
+      "GIGABYTE PerfDrive",
+      "CPU Upgrade",
+      "BCLK Output Source",
+      "Enhanced Multi-Core Performance",
+      "Performance CPU Clock Ratio",
+      "Efficiency CPU Clock Ratio",
+      "Max Ring Ratio",
+      "Min Ring Ratio",
+      "IGP Ratio",
+      "Advanced CPU Settings"
+     ]
+    },
+    {
+     "subtitle": ""
+    },
+    {
+     "pick": [
+      "4:10843",
+      "4:10739"
+     ],
+     "only": [
+      "DDR5 Auto Booster",
+      "High Bandwidth",
+      "Low Latency",
+      "DDR5 XMP Booster",
+      "Extreme Memory Profile(X.M.P.)",
+      "System Memory Multiplier"
+     ]
+    },
+    {
+     "ref": "4:10843",
+     "label": "Advanced Memory Settings"
+    },
+    {
+     "subtitle": ""
+    },
+    {
+     "heading": "CPU/PCH Voltage Control"
+    },
+    {
+     "pick": [
+      "4:10870",
+      "4:10752",
+      "4:10871",
+      "4:10001"
+     ],
+     "only": [
+      "Vcore Voltage Mode",
+      "Special Vcore Setting",
+      "CPU DLVR Mode",
+      "CPU DLVRin Vcore",
+      "Dynamic Vcore(DVID)",
+      "BCLK Adaptive Voltage",
+      "CPU Graphics Core (VAXG)(Offset)",
+      "CPU RING Voltage",
+      "CPU RING Voltage Offset",
+      "Internal VCCSA",
+      "VCCSA Override Mode",
+      "Internal VCCSA Offset",
+      "Internal Memory",
+      "Internal Memory Offset",
+      "Internal NGU",
+      "Internal NGU Offset",
+      "CPU VNNAON",
+      "VCCIO",
+      "CPU System Agent Voltage",
+      "VCC1P8 DDR",
+      "VCC1P8 CPU",
+      "VCC1P8 QUIET",
+      "V0P82 PCH",
+      "VCC1V8 PRIM",
+      "VCC1P8V"
+     ]
+    },
+    {
+     "ref": "4:10868",
+     "label": "Advanced Voltage Settings"
+    },
+    {
+     "subtitle": ""
+    },
+    {
+     "heading": "DRAM Voltage Control"
+    },
+    {
+     "pick": [
+      "4:10872"
+     ],
+     "only": [
+      "VDDQ CPU",
+      "VccIo CPU",
+      "VccClk CPU",
+      "Override Vdd2Mv",
+      "VDD2 CPU"
+     ]
+    },
+    {
+     "ref": "4:11042",
+     "label": "DDR5 Voltage Control"
+    }
+   ]
+  },
+  {
+   "id": "settings",
+   "title": "Settings",
+   "icon": "gear",
+   "entries": [
+    {
+     "page": "Platform Power",
+     "forms": [
+      "4:10007"
+     ]
+    },
+    {
+     "page": "IO Ports",
+     "forms": [
+      "4:10004",
+      "4:10003"
+     ],
+     "only": [
+      "Initial Display Output",
+      "Internal Graphics",
+      "PCIE Bifurcation Support",
+      "OnBoard LAN Controller",
+      "Audio Controller",
+      "Above 4GB MMIO BIOS assignment",
+      "Re-Size BAR Support",
+      "SR-IOV Support",
+      "IOAPIC 24-119 Entries",
+      "PCIe Link Speed Configuration",
+      "Gigabyte Utilities Downloader Configuration",
+      "USB Configuration",
+      "Network Stack Configuration",
+      "NVMe Configuration",
+      "SATA Configuration",
+      "VMD setup menu",
+      "Thunderbolt(TM) Configuration"
+     ]
+    },
+    {
+     "page": "Miscellaneous",
+     "forms": [
+      "4:10003",
+      "4:10004"
+     ],
+     "only": [
+      "LEDs in System Power On State",
+      "RST (MULTIKEY)",
+      "Intel Platform Trust Technology (PTT)",
+      "Intel (VMX) Virtualization Technology",
+      "VT-d",
+      "CPU VCore Sense",
+      "Trusted Computing",
+      "Acoustic Noise Settings"
+     ]
+    },
+    {
+     "subtitle": ""
+    },
+    {
+     "action": "search",
+     "label": "Option Search (Hot Key: Alt-F)"
+    },
+    {
+     "subtitle": ""
+    },
+    {
+     "ref": "4:10924",
+     "label": "PC Health Status"
+    }
+   ]
+  },
+  {
+   "id": "sysinfo",
+   "title": "System Info.",
+   "icon": "info",
+   "form": "4:10002",
+   "append": [
+    {
+     "ref": "4:11483",
+     "label": "Plug in Devices Info"
+    }
+   ]
+  },
+  {
+   "id": "boot",
+   "title": "Boot",
+   "icon": "power",
+   "form": "4:10006"
+  },
+  {
+   "id": "exit",
+   "title": "Save & Exit",
+   "icon": "exit",
+   "form": "4:10008"
+  }
+ ],
+ "hotkeys": {
+  "F1": "help",
+  "F6": "smartfan",
+  "F7": "load_defaults",
+  "F8": "qflash",
+  "F10": "save_exit",
+  "F11": "favorites",
+  "Alt+F": "search",
+  "F2": "toggle_mode"
+ },
+ "numeric_zero_means_auto": true
+}

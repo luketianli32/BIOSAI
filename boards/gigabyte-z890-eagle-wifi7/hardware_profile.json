@@ -1,0 +1,34 @@
+{
+  "_doc": "Runtime state the real BIOS fills in at boot (not stored in the image). Values are keyed by varstore name -> byte offset. 'varstore_defaults' applies one value to every question in a varstore; 'values' overrides single offsets. Calibrated against the overview video (Core Ultra 9 285K, 2x24GB Kingston DDR5 XMP 8200, admin access).",
+  "system": {
+    "cpu": "Intel Core Ultra 9 285K",
+    "memory": "2x24GB Kingston DDR5 (XMP 8200 MT/s), slots DDR5_A2 + DDR5_B2",
+    "gpu": "PCIe 4.0 x16 discrete",
+    "storage": "Viper VP4300L 2TB NVMe (M2Q)"
+  },
+  "varstore_defaults": {
+    "ProcMitAttrib": 1,
+    "MemMitAttrib": 1,
+    "AdvMitAttrib": 1,
+    "HswMitAttrib": 1,
+    "SystemAccess": 0
+  },
+  "values": {
+    "ProcMitAttrib": {
+      "0": 8,
+      "1": 16
+    },
+    "MemMitAttrib": {
+      "1": 1,
+      "9": 0,
+      "10": 0,
+      "11": 1,
+      "3": 0,
+      "4": 0,
+      "5": 1,
+      "6": 1,
+      "7": 1
+    }
+  },
+  "_values_doc": "ProcMitAttrib+0/+1 = P/E-core count. MemMitAttrib +1 = kit has a profile, +9 = XMP+EXPO kit, +10 = EXPO kit, +11 = XMP kit, +3..+7 = XMP profile 1..5 absent (decoded from the firmware's own conditions). The emulator overrides these from the selected parts."
+}
