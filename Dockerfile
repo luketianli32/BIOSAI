@@ -34,9 +34,9 @@ RUN useradd --system --uid 10001 --create-home app
 
 ENV PATH="/app/.venv/bin:${PATH}" \
     HOST=0.0.0.0 \
-    PORT=8765
+    PORT=8080
 
-EXPOSE 8765
+EXPOSE 8080
 USER app
 
 CMD ["sh", "-c", "exec python -m biosai serve --schema app/public/data/bios_schema.json --host \"$HOST\" --port \"$PORT\""]

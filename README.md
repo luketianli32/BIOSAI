@@ -40,11 +40,11 @@ image builds the web UI and runs the API and UI together:
 
 ```sh
 docker build -t biosai .
-docker run --rm -p 8765:8765 -e ANTHROPIC_API_KEY="$ANTHROPIC_API_KEY" biosai
+docker run --rm -p 8080:8080 -e ANTHROPIC_API_KEY="$ANTHROPIC_API_KEY" biosai
 ```
 
-The server listens on `0.0.0.0` and uses port `8765` by default; deployment
-platforms can override it with the `PORT` environment variable. Pass
+The container listens on `0.0.0.0:8080` by default; deployment platforms can
+override the port with the `PORT` environment variable. Pass
 `ANTHROPIC_API_KEY` at runtime if you want to enable the hosted AI tutor.
 
 **AI tutor:** set `ANTHROPIC_API_KEY` before `biosai serve` to use Claude (`claude-opus-5-5`, with server-side refusal fallback enabled). Without a key, the tutor runs offline and answers from the BIOS's own help text and dependency rules. Answers are grounded in options retrieved from this board's firmware plus `kb/tuning_guide.md`.
