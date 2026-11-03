@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for biosai-pq1qtq on 2026-11-03T04:39:56Z
+# fly.toml app configuration file generated for biosai-luke on 2026-11-03T04:50:59Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'biosai-pq1qtq'
+app = 'biosai-luke'
 primary_region = 'ams'
 
 [build]
