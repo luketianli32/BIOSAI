@@ -19,10 +19,6 @@ import hashlib
 import re
 from typing import Any, Iterable
 
-from ..firmware.fv import FirmwareImage, load_image
-from ..firmware.hii import find_hii
-from ..firmware.ifr import FormSet, decode_ifr
-
 UNKNOWN = object()
 
 
@@ -125,6 +121,9 @@ def _image_meta(path: str, data: bytes) -> dict:
 
 # ---- build -----------------------------------------------------------------
 def _formsets_from_image(img: FirmwareImage) -> list[tuple[str, FormSet]]:
+    from ..firmware.hii import find_hii
+    from ..firmware.ifr import decode_ifr
+
     out = []
     for m in img.modules:
         res = find_hii(m.payloads())
@@ -139,6 +138,8 @@ def _formsets_from_image(img: FirmwareImage) -> list[tuple[str, FormSet]]:
 
 def build_schema(bin_path: str, profile: dict | None = None,
                  root_formset_title: str = "Setup") -> dict:
+    from ..firmware.fv import FirmwareImage
+
     with open(bin_path, "rb") as f:
         data = f.read()
     img = FirmwareImage(data).walk()
@@ -330,4 +331,4 @@ def iter_tree(schema: dict, root: str, seen: set | None = None, depth: int = 0,
             yield from iter_tree(schema, d["target"], seen, depth + 1, visible_only)
 
 
-__all__ = ["build_schema", "initial_values", "evaluate", "condition_state", "iter_tree", "load_image", "UNKNOWN"]
+__all__ = ["build_schema", "initial_values", "evaluate", "condition_state", "iter_tree", "UNKNOWN"]
