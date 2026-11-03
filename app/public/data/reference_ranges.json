@@ -1,0 +1,87 @@
+{
+  "_doc": "Limits and reference values for numeric options whose range the BIOS menu data leaves undefined (0-65535 placeholder). Reverse engineering (see project notes) showed the Gigabyte GUI takes these ranges from the menu data, and Gigabyte's BIOS guide says the values depend on the installed CPU. 'enforce' rules are documented by Gigabyte and applied by the emulator. 'reference' rules are hardware/spec facts shown as guidance only, never enforced, because the stored units of Gigabyte's voltage numbers are not confirmed. Every rule cites its source.",
+  "rules": [
+    {
+      "id": "core-ratio-ceiling",
+      "kind": "enforce",
+      "match": "^(Performance CPU Clock Ratio|Efficiency CPU Clock Ratio|Turbo Ratio \\(\\d+ P-Core Active\\)|Turbo P-Core \\d+ +Ratio Limit|Turbo E-Core Ratio \\d+|CPU Flex Ratio Settings)$",
+      "max": 85,
+      "max_when": {
+        "prompt": "Core Ratio Extension Mode",
+        "label": "Enabled",
+        "max": 120
+      },
+      "note": "Ratio ceiling 85 (120 when Core Ratio Extension Mode is Enabled). The CPU itself may allow less: Gigabyte says the adjustable range depends on the installed CPU.",
+      "source": {
+        "title": "GIGABYTE BIOS Setup (Intel 800 Series), Core Ratio Extension Mode and Performance CPU Clock Ratio",
+        "url": "https://download.gigabyte.com/FileList/Manual/mb_manual_intel800-bios_e_v2.pdf"
+      }
+    },
+    {
+      "id": "dram-vdd-vddq",
+      "kind": "reference",
+      "forms": [
+        "4:11042"
+      ],
+      "match": "^(VDD|VDDQ)\\b",
+      "note": "DDR5 VDD/VDDQ default to 1.1 V (JEDEC). Standard PMICs cap VDD/VDDQ at 1.435 V; going higher needs a kit with an unlocked PMIC.",
+      "source": {
+        "title": "Igor's Lab, Corsair Vengeance DDR5 test (PMIC voltage limits)",
+        "url": "https://igorslab.de/en/micron-is-back-corsair-vengeance-2x-24-gb-ddr5-7000-and-5600-kits-test-with-overclocking-and-teardown/2"
+      }
+    },
+    {
+      "id": "ring-dlvr",
+      "kind": "reference",
+      "match": "^(CPU RING Voltage|CPU RING Voltage Offset)$",
+      "note": "Arrow Lake's Ring runs from an on-die DLVR whose voltage limit is 1.356 V by default and can be raised to 1.450 V under ambient cooling.",
+      "source": {
+        "title": "SkatterBencher, Arrow Lake Ring Overclocking",
+        "url": "https://skatterbencher.com/2024/10/24/arrow-lake-ring-overclocking/"
+      }
+    },
+    {
+      "id": "core-dlvr",
+      "kind": "reference",
+      "match": "^(Internal CPU Vcore|Internal CPU Vcore Offset|CPU DLVRin Vcore|Dynamic Vcore\\(DVID\\))$",
+      "note": "Arrow Lake P-cores, E-cores and Ring are powered by on-die DLVRs fed from the VccIA input (shown as CPU DLVRin Vcore). Since microcode 0x112, Intel blocks the DLVR bypass outside extreme-overclocking modes, and the microcode enforces a per-rail DLVR voltage limit.",
+      "source": {
+        "title": "Tom's Hardware: Intel removes DLVR bypass in 0x112 microcode for Arrow Lake",
+        "url": "https://tomshardware.com/pc-components/cpus/intel-removes-dlvr-bypass-power-gate-profile-in-latest-0x112-microcode-for-arrow-lake-says-the-change-will-prevent-accidental-misuse"
+      }
+    },
+    {
+      "id": "per-core-dlvr",
+      "kind": "reference",
+      "match": "^(Voltage|DVID|Mode)$",
+      "note": "Arrow Lake P-cores, E-cores and Ring are powered by on-die DLVRs fed from the VccIA input (shown as CPU DLVRin Vcore). Since microcode 0x112, Intel blocks the DLVR bypass outside extreme-overclocking modes, and the microcode enforces a per-rail DLVR voltage limit.",
+      "source": {
+        "title": "Tom's Hardware: Intel removes DLVR bypass in 0x112 microcode for Arrow Lake",
+        "url": "https://tomshardware.com/pc-components/cpus/intel-removes-dlvr-bypass-power-gate-profile-in-latest-0x112-microcode-for-arrow-lake-says-the-change-will-prevent-accidental-misuse"
+      },
+      "forms": [
+        "4:11499"
+      ]
+    },
+    {
+      "id": "memss-vdd2",
+      "kind": "reference",
+      "match": "^(VDD2 CPU|VDDQ CPU)$",
+      "note": "VDD2 is a static 1.1 V SoC rail by default; it powers the memory controller side, including the VDDQ transmit rail. Memory overclockers typically raise it only alongside high DDR5 speeds.",
+      "source": {
+        "title": "SkatterBencher, Arrow Lake MemSS Overclocking",
+        "url": "https://skatterbencher.com/2024/10/24/arrow-lake-memss-overclocking/"
+      }
+    },
+    {
+      "id": "high-voltage-limit",
+      "kind": "reference",
+      "match": "^(Setting High Voltage Limit|Unlock High Voltage Limit)$",
+      "note": "A BIOS-level voltage cap. Gigabyte: 'Allows you to unlock the high voltage limit' / 'Allows you to set the high voltage limit.' Leave it locked unless you are doing extreme overclocking.",
+      "source": {
+        "title": "GIGABYTE BIOS Setup (Intel 800 Series), Advanced CPU Settings",
+        "url": "https://download.gigabyte.com/FileList/Manual/mb_manual_intel800-bios_e_v2.pdf"
+      }
+    }
+  ]
+}

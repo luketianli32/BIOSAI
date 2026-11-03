@@ -13,22 +13,17 @@ RUN uv sync --frozen --no-dev --no-install-project
 COPY biosai/ ./biosai/
 COPY boards/ ./boards/
 COPY kb/ ./kb/
-COPY out/z890-eagle-f5/bios_schema.json ./out/z890-eagle-f5/bios_schema.json
-
-RUN uv run --no-sync python -m biosai bundle \
-    out/z890-eagle-f5/bios_schema.json \
-    boards/gigabyte-z890-eagle-wifi7
+COPY app/public/data/ ./app/public/data/
 
 FROM node:22-bookworm-slim AS frontend
 
 WORKDIR /app
 
-RUN corepack enable
+RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
 COPY app/package.json app/pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
 COPY app/ ./
-COPY --from=python-app /app/app/public/data ./public/data
 RUN pnpm build
 
 FROM python-app AS runtime
@@ -44,4 +39,4 @@ ENV PATH="/app/.venv/bin:${PATH}" \
 EXPOSE 8765
 USER app
 
-CMD ["sh", "-c", "exec python -m biosai serve --host \"$HOST\" --port \"$PORT\""]
+CMD ["sh", "-c", "exec python -m biosai serve --schema app/public/data/bios_schema.json --host \"$HOST\" --port \"$PORT\""]

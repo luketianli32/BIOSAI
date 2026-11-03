@@ -34,10 +34,9 @@ For frontend development, run `pnpm dev` in `app/` (http://localhost:5173). It p
 
 ## Docker deployment
 
-The Docker build expects the generated BIOS schema at
-`out/z890-eagle-f5/bios_schema.json`. Generate it with the `extract` command
-above before building. The image bundles the schema and board data, builds the
-web UI, and runs the API and UI together:
+The Docker build uses the board data bundled in `app/public/data/`. Regenerate
+that data with the `bundle` command above when updating the BIOS schema. The
+image builds the web UI and runs the API and UI together:
 
 ```sh
 docker build -t biosai .
